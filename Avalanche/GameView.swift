@@ -6,10 +6,28 @@
 //
 
 import SwiftUI
+import SpriteKit
 
 struct GameView: View {
+    @Environment(\.scenePhase) private var scenePhase
+
+    var scene: SKScene {
+        let scene: SKScene = GameScene()
+        scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        scene.scaleMode = .fill
+        return scene
+    }
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        SpriteView(scene: scene)
+            .edgesIgnoringSafeArea(.all)
+            .navigationBarBackButtonHidden(true)
+            .onChange(of: scenePhase) { _, newPhase in
+                switch newPhase {
+                case .active: SoundManager.shared.resumeBackgroundMusic()
+                case .inactive, .background: SoundManager.shared.pauseBackgroundMusic()
+                @unknown default: break
+                }
+            }
     }
 }
 
