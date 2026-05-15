@@ -8,25 +8,37 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Avalanche")
-                    .font(.title)
-                    .padding()
+    @State private var showGameScene: Bool = false
 
-                NavigationLink(destination: GameView()) {
-                    Text("Start Game")
-                        .bold()
+    var body: some View {
+        ZStack {
+            if showGameScene {
+                GameView()
+                    .id(UUID())
+                    .onReceive(NotificationCenter.default.publisher(for: Notification.Name("exitToMainMenu"))) { _ in
+                        showGameScene = false
+                    }
+            } else {
+                VStack {
+                    Text("Avalanche")
+                        .font(.title)
                         .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(.blue)
-                        .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle.init(cornerRadius: 12))
+
+                    Button(action: {
+                        showGameScene = true
+                    }) {
+                        Text("Start Game")
+                            .bold()
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(.blue)
+                            .foregroundStyle(.white)
+                    }
                 }
+                .transition(.opacity)
             }
-            .padding()
         }
+        .animation(.easeInOut, value: showGameScene)
     }
 }
 

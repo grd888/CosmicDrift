@@ -121,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
 
         // Sound here
-        SoundManager.shared.playbackgroundMusic(filename: "game_music")
+
     }
 
     func setupBackground() {
@@ -169,6 +169,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.spawnPowerUp()
             }
         }
+        SoundManager.shared.playbackgroundMusic(filename: "game_music")
     }
 
     func spawnPowerUp() {
@@ -200,10 +201,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // 50% dhance to spawn enemy each cycle
         if Bool.random() {
-            let enemy = SKSpriteNode(texture: enemyTextures.randomElement())
+
+
+            let enemyType: EnemyType = Int.random(in: 1...10) == 1 ? .seeker : .normal
+            let enemy = EnemyNode(type: enemyType, texture: enemyTextures.randomElement()!)
             enemy.position = CGPoint(x: randomX, y: size.height)
             enemy.size = CGSize(width: randomSize, height: randomSize)
-            enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width)
+            enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width / 2)
             enemy.physicsBody?.isDynamic = true
             enemy.physicsBody?.categoryBitMask = PhysicsCategory.enemy
             enemy.physicsBody?.contactTestBitMask = PhysicsCategory.player
@@ -272,10 +276,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func moveEnemies() {
         for node in children {
-            if let sprite = node as? SKSpriteNode, sprite != player, sprite != background {
-                sprite.position.y -= 30
-                if sprite.position.y < 0 {
-                    sprite.removeFromParent()
+            if let enemy = node as? EnemyNode {
+                let baseSpeed: CGFloat = size.height / (3.0 * 60)
+                let adjustedSpeed = baseSpeed * enemySpeedModifier
+
+                enemy.updateMovement(playerPosition: player.position)
+                enemy.position.y -= adjustedSpeed
+
+                if enemy.position.y < -enemy.size.height {
+                    enemy.removeFromParent()
                 }
             }
         }
@@ -316,9 +325,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         showExplosion(at: player.position)
         SoundManager.shared.playSoundEffect(filename: "game_over")
         player.removeFromParent()
-        run(SKAction.wait(forDuration: 2.0)) {
-            self.restartGame()
-        }
+
+        showGameOverScreen()
     }
 
     func showExplosion(at position: CGPoint) {
@@ -350,6 +358,76 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             setupUI()
             startGame()
         }
+    }
+
+    func showGameOverScreen() {
+        gameTimer?.invalidate()
+        scoreTimer?.invalidate()
+        powerUpTimer?.invalidate()
+        SoundManager.shared.stopBackgroundMusic()
+
+        let overlay = SKSpriteNode(color: UIColor.black.withAlphaComponent(0.6), size: self.size)
+        overlay.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+        overlay.zPosition = 10
+        addChild(overlay)
+
+        let gameOverLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+        gameOverLabel.text = "GAME OVER"
+        gameOverLabel.fontSize = 40
+        gameOverLabel.fontColor = .white
+        gameOverLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 + 80)
+        gameOverLabel.zPosition = 11
+        addChild(gameOverLabel)
+
+        let retryButton = SKLabelNode(fontNamed: "AvenirNext-Bold")
+        retryButton.text = "Go Again"
+        retryButton.fontSize = 28
+        retryButton.fontColor = .green
+        retryButton.position = CGPoint(x: self.size.width / 2 - 100, y: self.size.height / 2 - 30)
+        retryButton.zPosition = 11
+        retryButton.name = "retryButton"
+        addChild(retryButton)
+
+        let finalScoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+        finalScoreLabel.text = "Final Score: \(score) seconds"
+        finalScoreLabel.fontSize = 28
+        finalScoreLabel.fontColor = .white
+        finalScoreLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 + 30)
+        finalScoreLabel.zPosition = 11
+        addChild(finalScoreLabel)
+
+        let mainMenuButton = SKLabelNode(fontNamed: "AvenirNext-Bold")
+        mainMenuButton.text = "Main Menu"
+        mainMenuButton.fontSize = 28
+        mainMenuButton.fontColor = .yellow
+        mainMenuButton.position = CGPoint(x: self.size.width / 2 + 100, y: self.size.height / 2 - 30)
+        mainMenuButton.zPosition = 11
+        mainMenuButton.name = "mainMenuButton"
+        addChild(mainMenuButton)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        let touchedNode = atPoint(location)
+
+        if touchedNode.name == "mainMenuButton" {
+            goToMainMenu()
+        } else if touchedNode.name == "retryButton" {
+            restartGame()
+        }
+    }
+
+    func goToMainMenu() {
+        gameTimer?.invalidate()
+        scoreTimer?.invalidate()
+        powerUpTimer?.invalidate()
+        SoundManager.shared.stopBackgroundMusic()
+
+        self.removeAllActions()
+        self.removeAllChildren()
+
+        NotificationCenter.default.post(name: NSNotification.Name("exitToMainMenu"), object: nil)
     }
 
 }
