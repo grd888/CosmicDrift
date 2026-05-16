@@ -27,6 +27,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var powerUpTimer: Timer?
     var enemySpeedModifier: CGFloat = 1.0
     var gameTimeModifier: Double = 1.0
+    private let selectedShipColor: String
+
+    init(selectedShipColor: String = "red") {
+        self.selectedShipColor = selectedShipColor
+        super.init(size: .zero)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        self.selectedShipColor = "red"
+        super.init(coder: aDecoder)
+    }
 
     func applyPowerUp(_ powerUp: PowerUp) {
         if let collectedEffect = SKEffectNode(fileNamed: "PowerUpEffect.sks") {
@@ -119,9 +130,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         startGame()
 
         physicsWorld.contactDelegate = self
-
-        // Sound here
-
     }
 
     func setupBackground() {
@@ -132,6 +140,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setupPlayer() {
+        let shipImageName = "ship_\(selectedShipColor)"
+        player.texture = SKTexture(imageNamed: shipImageName)
         player.position = CGPoint(x: size.width / 2, y: 120) // place us at the bottom
         player.size = CGSize(width: 40, height: 40)
         player.physicsBody = SKPhysicsBody(circleOfRadius: 20)
@@ -360,11 +370,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
+    func saveScore(_ newScore: Int) {
+        let defaults = UserDefaults.standard
+        var highscores = defaults.array(forKey: "highscores") as? [Int] ?? []
+
+        highscores.append(newScore)
+        highscores.sort(by: >)
+
+        if highscores.count > 5 {
+            highscores = Array(highscores.prefix(5))
+        }
+
+        defaults.set(highscores, forKey: "highscores")
+    }
+
     func showGameOverScreen() {
         gameTimer?.invalidate()
         scoreTimer?.invalidate()
         powerUpTimer?.invalidate()
         SoundManager.shared.stopBackgroundMusic()
+
+        saveScore(score)
 
         let overlay = SKSpriteNode(color: UIColor.black.withAlphaComponent(0.6), size: self.size)
         overlay.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
@@ -404,6 +430,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mainMenuButton.zPosition = 11
         mainMenuButton.name = "mainMenuButton"
         addChild(mainMenuButton)
+
+        let defaults = UserDefaults.standard
+        let highscores = defaults.array(forKey: "highscores") as? [Int] ?? []
+
+        for (index, score) in highscores.enumerated() {
+            let scoreLabel = SKLabelNode(fontNamed: "AvenirNext-Bold")
+            scoreLabel.text = "\(index + 1). \(score) seconds"
+            scoreLabel.fontSize = 24
+            scoreLabel.fontColor = .white
+            scoreLabel.zPosition = 11
+
+            scoreLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 80 - CGFloat(index * 30))
+            addChild(scoreLabel)
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

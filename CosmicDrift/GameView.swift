@@ -7,12 +7,15 @@
 
 import SwiftUI
 import SpriteKit
+import SwiftData
 
 struct GameView: View {
     @Environment(\.scenePhase) private var scenePhase
+    @Query private var settings: [GameSettings]
 
     var scene: SKScene {
-        let scene: SKScene = GameScene()
+        let selectedShipColor = settings.first?.selectedShipColor ?? "red"
+        let scene: SKScene = GameScene(selectedShipColor: selectedShipColor)
         scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         scene.scaleMode = .fill
         return scene
