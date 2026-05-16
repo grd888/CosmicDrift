@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		A584F5902FB4C32000407165 /* Avalanche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avalanche.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A584F5902FB4C32000407165 /* CosmicDrift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CosmicDrift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		A584F5922FB4C32000407165 /* Avalanche */ = {
+		A584F5922FB4C32000407165 /* CosmicDrift */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Avalanche;
+			path = CosmicDrift;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		A584F5872FB4C32000407165 = {
 			isa = PBXGroup;
 			children = (
-				A584F5922FB4C32000407165 /* Avalanche */,
+				A584F5922FB4C32000407165 /* CosmicDrift */,
 				A584F5912FB4C32000407165 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		A584F5912FB4C32000407165 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A584F5902FB4C32000407165 /* Avalanche.app */,
+				A584F5902FB4C32000407165 /* CosmicDrift.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A584F58F2FB4C32000407165 /* Avalanche */ = {
+		A584F58F2FB4C32000407165 /* CosmicDrift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A584F59B2FB4C32200407165 /* Build configuration list for PBXNativeTarget "Avalanche" */;
+			buildConfigurationList = A584F59B2FB4C32200407165 /* Build configuration list for PBXNativeTarget "CosmicDrift" */;
 			buildPhases = (
 				A584F58C2FB4C32000407165 /* Sources */,
 				A584F58D2FB4C32000407165 /* Frameworks */,
@@ -61,13 +61,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				A584F5922FB4C32000407165 /* Avalanche */,
+				A584F5922FB4C32000407165 /* CosmicDrift */,
 			);
-			name = Avalanche;
+			name = CosmicDrift;
 			packageProductDependencies = (
 			);
 			productName = Avalanche;
-			productReference = A584F5902FB4C32000407165 /* Avalanche.app */;
+			productReference = A584F5902FB4C32000407165 /* CosmicDrift.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A584F58B2FB4C32000407165 /* Build configuration list for PBXProject "Avalanche" */;
+			buildConfigurationList = A584F58B2FB4C32000407165 /* Build configuration list for PBXProject "CosmicDrift" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A584F58F2FB4C32000407165 /* Avalanche */,
+				A584F58F2FB4C32000407165 /* CosmicDrift */,
 			);
 		};
 /* End PBXProject section */
@@ -267,7 +267,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.gdelgado.Avalanche;
+				PRODUCT_BUNDLE_IDENTIFIER = org.gdelgado.cosmicdrift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -300,7 +300,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.gdelgado.Avalanche;
+				PRODUCT_BUNDLE_IDENTIFIER = org.gdelgado.cosmicdrift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -315,7 +315,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A584F58B2FB4C32000407165 /* Build configuration list for PBXProject "Avalanche" */ = {
+		A584F58B2FB4C32000407165 /* Build configuration list for PBXProject "CosmicDrift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A584F5992FB4C32200407165 /* Debug */,
@@ -324,7 +324,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A584F59B2FB4C32200407165 /* Build configuration list for PBXNativeTarget "Avalanche" */ = {
+		A584F59B2FB4C32200407165 /* Build configuration list for PBXNativeTarget "CosmicDrift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A584F59C2FB4C32200407165 /* Debug */,

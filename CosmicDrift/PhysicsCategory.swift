@@ -1,6 +1,6 @@
 //
 //  PhysicsCategory.swift
-//  Avalanche
+//  CosmicDrift
 //
 //  Created by Greg Delgado on 15/5/2026.
 //

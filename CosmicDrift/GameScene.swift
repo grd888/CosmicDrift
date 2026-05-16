@@ -1,6 +1,6 @@
 //
 //  GameScene.swift
-//  Avalanche
+//  CosmicDrift
 //
 //  Created by Greg Delgado on 14/5/2026.
 //

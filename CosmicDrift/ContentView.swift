@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Avalanche
+//  CosmicDrift
 //
 //  Created by Greg Delgado on 13/5/2026.
 //
@@ -20,7 +20,7 @@ struct ContentView: View {
                     }
             } else {
                 VStack {
-                    Text("Avalanche")
+                    Text("Cosmic Drift")
                         .font(.title)
                         .padding()
 
